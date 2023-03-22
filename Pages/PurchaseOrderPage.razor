@@ -1,0 +1,43 @@
+@page "/purchase-order/{id}"
+
+@using Wasm.Models
+
+<h3>PurchaseOrder: @PoNumber</h3>
+
+<RadzenText>Date: @PurchaseOrder?.PoDate</RadzenText>
+<RadzenText>Supplier Id: @PurchaseOrder?.SupplierId</RadzenText>
+<RadzenText>Terms: @PurchaseOrder?.Terms</RadzenText>
+
+<RadzenDataList Data="@PurchaseOrder?.Items" TItem="PurchaseOrderItem" AllowPaging="true" PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+    <Template Context="item">
+        <RadzenCard Style="width: 100%; padding: 0;">
+            <RadzenRow Gap="0">
+                <RadzenColumn Size="12" SizeLG="3" Class="rz-p-4 item-number">
+                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-secondary"># @(item.ItemNumber)</RadzenText>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeLG="3" Class="rz-p-4">
+                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-secondary">@(item.LocalSku)</RadzenText>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeLG="3" Class="rz-p-4">
+                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-secondary">Quantity: @(item.Quantity)</RadzenText>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeLG="3" Class="rz-p-4">
+                    <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Shade="Shade.Lighter" class="cost-badge" Text=@($"{String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", item.Cost)}") />
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenCard>
+    </Template>
+</RadzenDataList>
+
+<style>
+.item-number {
+    min-height: 72px;
+    background-color: var(--rz-secondary-lighter);
+}
+.cost-badge {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    padding: 8px;
+}
+</style>

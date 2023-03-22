@@ -1,10 +1,5 @@
 ﻿@page "/"
 
-@using Wasm.Services
-@using Wasm.Models
-
-@inject IPurchaseOrderService PurchaseOrderService
-
 <PageTitle>Index</PageTitle>
 
 <RadzenDataList Data="@PurchaseOrders">
@@ -20,17 +15,10 @@
                 <RadzenColumn>
                     <RadzenText>@purchaseOrder.SupplierId</RadzenText>
                 </RadzenColumn>
+                <RadzenColumn>
+                    <RadzenButton Text="View PO" Click="@(() => ViewPoClicked(@purchaseOrder))"></RadzenButton>
+                </RadzenColumn>
             </RadzenRow>
         </RadzenCard>
     </Template>
 </RadzenDataList>
-
-@code
-{
-    public List<PurchaseOrder> PurchaseOrders { get; set; } = new List<PurchaseOrder>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        PurchaseOrders = await PurchaseOrderService.GetPurchaseOrdersAsync();
-    }
-}
